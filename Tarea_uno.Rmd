@@ -1,0 +1,34 @@
+---
+title: "Tarea_uno"
+author: "Carlos Alarcon"
+date: "23/9/2019"
+output:
+    html_document:
+      fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Distribución de poblaciones en diferentes estados
+
+```{r data, include=FALSE}
+library(tidyverse)
+library(dplyr)
+data("midwest")
+```
+Se muestra una tabla resumen con los estados y los promedios (prom_) de cada población
+
+```{r tabla1}
+x <- midwest %>% select("state", "poptotal", "popwhite", "popblack", "popamerindian", "popasian", "popother") %>% group_by(state) %>% summarise(prom_poptotal = mean(poptotal), prom_popwhite = mean(popwhite), prom_popblack = mean(popblack), prom_popamerindian = mean(popamerindian), prom_popasian = mean(popasian), prom_popother = mean(popother))
+knitr::kable(x, caption = "Tabla 1: Valores promedio de personas por población en cada estado", digits = 6)
+```
+
+En el siguiente gráfico está la distribución de cada población en los estados. 
+
+```{r fig.cap= "Figura 1. Distribución de las poblaciones en los estados"}
+
+ggplot(midwest, aes(x = state, y = poptotal)) + geom_boxplot(aes(fill = popwhite)) + theme_classic()
+
+```
